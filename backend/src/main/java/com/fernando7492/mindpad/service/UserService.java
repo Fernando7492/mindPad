@@ -1,20 +1,20 @@
 package com.fernando7492.mindpad.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fernando7492.mindpad.exception.UserNotFoundException;
 import com.fernando7492.mindpad.model.User;
 import com.fernando7492.mindpad.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     //Create
     public User save(User user){
@@ -25,21 +25,26 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findById(Long id){
-        return userRepository.findById(id);
+    public User findById(Long id){
+        return userRepository.findById(id)
+        .orElseThrow(()-> new UserNotFoundException(id));
     }
 
-    public Optional<User> findByName(String name){
+    public List<User> findByName(String name){
         return userRepository.findByNameContainingIgnoreCase(name);
     }
+    
     //Update
     public User update(User user){
-        return userRepository.save(user);
+        if (user.getId() == null || !userRepository.existsById(user.getId())){
+            throw new UserNotFoundException(user.getId());
+        }
+        return  userRepository.save(user);
     }
     //Delete
-    public void deleteById(Long id) throws UserNotFoundException{
-        if (!userRepository.existById(id)){
-            throw new UserNotFoundException();
+    public void deleteById(Long id){
+        if (!userRepository.existsById(id)){
+            throw new UserNotFoundException(id);
         }else{
             userRepository.deleteById(id);
         }
