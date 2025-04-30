@@ -10,7 +10,8 @@ import com.fernando7492.mindpad.model.Page;
 @Repository
 public interface PagesRepository extends JpaRepository<Page, Long>{
 
-    List<Page> findByTitleContaningIgnoreCase(String title);
+    
+    List<Page> findByTitleContainingIgnoreCase(String title);
 
-    List<Page> findByContantContainingIgnoreCase(String contant);
+    List<Page> findByContentContainingIgnoreCase(String content);
 }

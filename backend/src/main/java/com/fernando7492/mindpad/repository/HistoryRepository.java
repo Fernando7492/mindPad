@@ -10,6 +10,6 @@ import com.fernando7492.mindpad.model.History;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long>{
 
-    List<History> findByPageIdOrderByTimestampsDesc(Long ParentId);
+    List<History> findByPageIdOrderByTimestampDesc(Long ParentId);
 
 }

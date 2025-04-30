@@ -9,9 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,16 +23,16 @@ public class History {
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="page", nullable=false, updatable=false)
+    @JoinColumn(name="page_id", nullable=false, updatable=false)
     private Page page;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(name="creat_at",nullable=false)
+    @Column(name="created_at",nullable=false)
     private LocalDateTime timestamp;
 
-    @OneToMany(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="author_id", nullable=true)
     private User author;
 }
