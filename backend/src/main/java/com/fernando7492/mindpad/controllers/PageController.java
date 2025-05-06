@@ -16,49 +16,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fernando7492.mindpad.dto.UserRequestDTO;
-import com.fernando7492.mindpad.dto.UserResponseDTO;
+import com.fernando7492.mindpad.dto.PageRequestDTO;
+import com.fernando7492.mindpad.dto.PageResponseDTO;
 import com.fernando7492.mindpad.facade.Mindpad;
 
 import lombok.RequiredArgsConstructor;
 
-
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequiredArgsConstructor
+@RequestMapping("/pages")
+public class PageController {
 
     private final Mindpad mindpad;
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> saveUser(@Validated @RequestBody UserRequestDTO newUser){
-        UserResponseDTO create = mindpad.saveUser(newUser);
+    public ResponseEntity<PageResponseDTO> savePage(@Validated @RequestBody PageRequestDTO newPage){
+        PageResponseDTO create = mindpad.savePage(newPage);
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
     @GetMapping
-    public List<UserResponseDTO> getUsers(@RequestParam(required=false) String name){
-        if(name==null){
-            return  mindpad.getAllUsers();
+    public List<PageResponseDTO> getPages(@RequestParam(required=false) String title){
+        if(title==null){
+            return mindpad.getAllPages();
         }
-        return mindpad.findUserByName(name);
+        return mindpad.findPageByTitle(title);
     }
 
     @GetMapping("/{id}")
-    public UserResponseDTO getUserById(@PathVariable Long id){
-        return mindpad.findUserById(id);
+    public PageResponseDTO getPageById(@PathVariable Long id){
+        return mindpad.findPageById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @Validated @RequestBody UserRequestDTO dto){
-        UserResponseDTO update = mindpad.updateUser(id, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(update);
+    public ResponseEntity<PageResponseDTO> updatePageEntity(@PathVariable Long id, @Validated @RequestBody PageRequestDTO dto){
+        PageResponseDTO update = mindpad.updatePage(id, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(update);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id){
-        mindpad.deleteUser(id);
+    public void deletePage(@PathVariable Long id){
+        mindpad.deletePage(id);
     }
-    
 }

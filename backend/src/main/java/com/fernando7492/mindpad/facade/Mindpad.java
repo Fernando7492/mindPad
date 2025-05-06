@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class Midpad {
+public class Mindpad {
     private final UserService userService;
     private final UserMapper userMapper;
     private final PageService pageService;
