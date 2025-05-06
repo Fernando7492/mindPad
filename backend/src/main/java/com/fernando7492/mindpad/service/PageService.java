@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PagesService {
+public class PageService {
     private final PagesRepository pagesRepository;
 
     public Page save(Page page){
