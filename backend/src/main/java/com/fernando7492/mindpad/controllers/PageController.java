@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fernando7492.mindpad.dto.PageRequestDTO;
 import com.fernando7492.mindpad.dto.PageResponseDTO;
+import com.fernando7492.mindpad.dto.PageSearchDTO;
 import com.fernando7492.mindpad.facade.Mindpad;
 
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,14 @@ public class PageController {
             return mindpad.getAllPages();
         }
         return mindpad.findPageByTitle(title);
+    }
+
+    //TODO: Refatorar as buscas para um único metodo usando PageSearchDto
+
+    @PostMapping("/search/content")
+    public List<PageResponseDTO> getPagesByContent(@RequestBody PageSearchDTO dto){
+        System.out.println("DEBUG >> Chegou no controller com content: " + dto.getContent());
+        return mindpad.findPageByContent(dto.getContent());
     }
 
     @GetMapping("/{id}")
