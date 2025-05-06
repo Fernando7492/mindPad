@@ -48,7 +48,6 @@ public class PageController {
 
     @PostMapping("/search/content")
     public List<PageResponseDTO> getPagesByContent(@RequestBody PageSearchDTO dto){
-        System.out.println("DEBUG >> Chegou no controller com content: " + dto.getContent());
         return mindpad.findPageByContent(dto.getContent());
     }
 
