@@ -94,11 +94,16 @@ public class Mindpad {
     }
 
     public PageResponseDTO updatePage(Long id, PageRequestDTO dto){
-        Page entity = pageMapper.toEntity(dto);
-        entity.setId(id);
-        Page saved = pageService.update(entity);
-        PageResponseDTO response = pageMapper.toDto(saved);
-        return response;
+        Page page = pageService.findbyId(id);
+
+        if(dto.getTitle()!=null){
+            page.setTitle(dto.getTitle());
+        }
+        if(dto.getContent()!=null){
+            page.setContent(dto.getContent());
+        }
+        Page saved = pageService.update(page);
+        return pageMapper.toDto(saved);
     }
 
     public void deletePage(Long id){
