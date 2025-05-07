@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,18 +36,14 @@ public class PageController {
     }
 
     @GetMapping
-    public List<PageResponseDTO> getPages(@RequestParam(required=false) String title){
-        if(title==null){
-            return mindpad.getAllPages();
-        }
-        return mindpad.findPageByTitle(title);
+    public List<PageResponseDTO> getPages(){
+        return mindpad.getAllPages();
     }
 
-    //TODO: Refatorar as buscas para um único metodo usando PageSearchDto
 
-    @PostMapping("/search/content")
-    public List<PageResponseDTO> getPagesByContent(@RequestBody PageSearchDTO dto){
-        return mindpad.findPageByContent(dto.getContent());
+    @PostMapping("/search")
+    public List<PageResponseDTO> searchPages(@RequestBody PageSearchDTO dto){
+        return mindpad.searchPages(dto);
     }
 
     @GetMapping("/{id}")

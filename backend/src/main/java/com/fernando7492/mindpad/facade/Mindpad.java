@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fernando7492.mindpad.dto.PageRequestDTO;
 import com.fernando7492.mindpad.dto.PageResponseDTO;
+import com.fernando7492.mindpad.dto.PageSearchDTO;
 import com.fernando7492.mindpad.dto.UserRequestDTO;
 import com.fernando7492.mindpad.dto.UserResponseDTO;
 import com.fernando7492.mindpad.mapper.PageMapper;
@@ -80,14 +81,8 @@ public class Mindpad {
         return pageMapper.toDto(pageService.findbyId(id));
     }
 
-    public List<PageResponseDTO> findPageByTitle(String title){
-        List<Page> entities = pageService.findByTitle(title);
-        return entities.stream()
-        .map(pageMapper::toDto)
-        .collect(Collectors.toList());
-    }
-    public List<PageResponseDTO> findPageByContent(String content){
-        List<Page> entities = pageService.findByContent(content);
+    public List<PageResponseDTO> searchPages(PageSearchDTO dto){
+        List<Page> entities = pageService.search(dto);
         return entities.stream()
         .map(pageMapper::toDto)
         .collect(Collectors.toList());
