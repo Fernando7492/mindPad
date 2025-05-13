@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fernando7492.mindpad.dto.HistoryResponseDTO;
 import com.fernando7492.mindpad.dto.PageRequestDTO;
 import com.fernando7492.mindpad.dto.PageResponseDTO;
 import com.fernando7492.mindpad.dto.PageSearchDTO;
@@ -61,5 +62,10 @@ public class PageController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePage(@PathVariable Long id){
         mindpad.deletePage(id);
+    }
+
+    @GetMapping("/{id}/history")
+    public List<HistoryResponseDTO> getPageHistory(@PathVariable Long id){
+        return mindpad.getHistories(id);
     }
 }

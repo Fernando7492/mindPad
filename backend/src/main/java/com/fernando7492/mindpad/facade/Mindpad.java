@@ -5,18 +5,23 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.fernando7492.mindpad.dto.HistoryResponseDTO;
 import com.fernando7492.mindpad.dto.PageRequestDTO;
 import com.fernando7492.mindpad.dto.PageResponseDTO;
 import com.fernando7492.mindpad.dto.PageSearchDTO;
 import com.fernando7492.mindpad.dto.UserRequestDTO;
 import com.fernando7492.mindpad.dto.UserResponseDTO;
+import com.fernando7492.mindpad.mapper.HistoryMapper;
 import com.fernando7492.mindpad.mapper.PageMapper;
 import com.fernando7492.mindpad.mapper.UserMapper;
+import com.fernando7492.mindpad.model.History;
 import com.fernando7492.mindpad.model.Page;
 import com.fernando7492.mindpad.model.User;
+import com.fernando7492.mindpad.service.HistoryService;
 import com.fernando7492.mindpad.service.PageService;
 import com.fernando7492.mindpad.service.UserService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -26,6 +31,8 @@ public class Mindpad {
     private final UserMapper userMapper;
     private final PageService pageService;
     private final PageMapper pageMapper;
+    private final HistoryService historyService;
+    private final HistoryMapper historyMapper;
     
     // USER
     public UserResponseDTO saveUser(UserRequestDTO dto){
@@ -88,8 +95,10 @@ public class Mindpad {
         .collect(Collectors.toList());
     }
 
+    @Transactional
     public PageResponseDTO updatePage(Long id, PageRequestDTO dto){
         Page page = pageService.findbyId(id);
+        historyService.save(page);
 
         if(dto.getTitle()!=null){
             page.setTitle(dto.getTitle());
@@ -103,6 +112,13 @@ public class Mindpad {
 
     public void deletePage(Long id){
         pageService.deleteById(id);
+    }
+
+    public List<HistoryResponseDTO> getHistories(Long id){
+        List<History> entities = historyService.getHistories(id);
+        return entities.stream()
+        .map(historyMapper::dto)
+        .collect(Collectors.toList());
     }
 
 }

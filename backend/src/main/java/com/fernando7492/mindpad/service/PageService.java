@@ -38,6 +38,13 @@ public class PageService {
         orElseThrow();
     }
 
+    public void checkExistence(Long pageId) {
+        if (!pagesRepository.existsById(pageId)) {
+            throw new PageNotFoundException(pageId);
+        }
+    }
+
+
     public List<Page> search(PageSearchDTO searchDTO){
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Page> cq = cb.createQuery(Page.class);

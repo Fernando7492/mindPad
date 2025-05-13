@@ -2,6 +2,9 @@ package com.fernando7492.mindpad.model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,7 +27,11 @@ public class History {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="page_id", nullable=false, updatable=false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Page page;
+
+    @Column(nullable=false)
+    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
